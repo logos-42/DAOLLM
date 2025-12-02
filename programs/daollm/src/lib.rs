@@ -8,6 +8,9 @@ use instructions::{
     inference_network::{
         RegisterNode, SubmitInference, AggregateResults, RateNode
     },
+    governance::{
+        CreateGovernanceProposal, VoteOnProposal, ExecuteProposal
+    },
 };
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
@@ -55,6 +58,77 @@ pub mod daollm {
         score: u8,
     ) -> Result<()> {
         instructions::inference_network::rate_node(ctx, node_address, score)
+    }
+
+    // Governance Instructions
+    pub fn create_governance_proposal(
+        ctx: Context<CreateGovernanceProposal>,
+        proposal_id: u64,
+        proposal_type: instructions::governance::ProposalType,
+        description: String,
+        target_config: Option<state::ModelConfig>,
+        voting_duration: i64,
+    ) -> Result<()> {
+        instructions::governance::create_governance_proposal(
+            ctx, proposal_id, proposal_type, description, target_config, voting_duration
+        )
+    }
+
+    pub fn vote_on_proposal(
+        ctx: Context<VoteOnProposal>,
+        proposal_id: u64,
+        vote_type: instructions::governance::VoteType,
+        voting_power: u64,
+    ) -> Result<()> {
+        instructions::governance::vote_on_proposal(ctx, proposal_id, vote_type, voting_power)
+    }
+
+    pub fn execute_proposal(
+        ctx: Context<ExecuteProposal>,
+        proposal_id: u64,
+    ) -> Result<()> {
+        instructions::governance::execute_proposal(ctx, proposal_id)
+    }
+
+    // Reward Distribution Instructions
+    pub fn distribute_data_contribution_reward(
+        ctx: Context<instructions::rewards::DistributeRewards>,
+        amount: u64,
+    ) -> Result<()> {
+        instructions::rewards::distribute_data_contribution_reward(ctx, amount)
+    }
+
+    pub fn distribute_inference_reward(
+        ctx: Context<instructions::rewards::DistributeRewards>,
+        amount: u64,
+    ) -> Result<()> {
+        instructions::rewards::distribute_data_contribution_reward(ctx, amount)
+    }
+
+    pub fn claim_reward(
+        ctx: Context<instructions::rewards::ClaimReward>,
+        reward_type: instructions::rewards::RewardType,
+        amount: u64,
+    ) -> Result<()> {
+        instructions::rewards::claim_reward(ctx, reward_type, amount)
+    }
+
+    // Training Instructions
+    pub fn create_training_task(
+        ctx: Context<instructions::training::CreateTrainingTask>,
+        task_id: u64,
+        model_config_hash: String,
+        total_nodes: u32,
+    ) -> Result<()> {
+        instructions::training::create_training_task(ctx, task_id, model_config_hash, total_nodes)
+    }
+
+    pub fn submit_gradient(
+        ctx: Context<instructions::training::SubmitGradient>,
+        task_id: u64,
+        gradient_hash: String,
+    ) -> Result<()> {
+        instructions::training::submit_gradient(ctx, task_id, gradient_hash)
     }
 }
 

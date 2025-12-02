@@ -30,6 +30,8 @@ async fn main() {
         .route("/health", get(health))
         .nest("/api/proposals", routes::proposals::router())
         .nest("/api/inference", routes::inference::router())
+        .nest("/api/governance", routes::governance::router())
+        .nest("/api/rewards", routes::rewards::router())
         .layer(
             CorsLayer::new()
                 .allow_origin(Any)

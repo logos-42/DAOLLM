@@ -48,3 +48,56 @@ pub struct NodeResult {
     pub confidence: u8,
 }
 
+// Governance models
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GovernanceProposalRequest {
+    pub proposal_type: String,
+    pub description: String,
+    pub target_config: Option<ModelConfigRequest>,
+    pub voting_duration: i64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ModelConfigRequest {
+    pub model_version: u64,
+    pub learning_rate: f64,
+    pub batch_size: u32,
+    pub max_epochs: u32,
+    pub inference_timeout: u64,
+    pub min_node_reputation: u8,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct GovernanceProposalResponse {
+    pub proposal_id: u64,
+    pub proposer: String,
+    pub proposal_type: String,
+    pub description: String,
+    pub votes_for: u64,
+    pub votes_against: u64,
+    pub status: String,
+    pub created_at: i64,
+    pub voting_ends_at: i64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct VoteRequest {
+    pub proposal_id: u64,
+    pub vote_type: String, // "for", "against", "abstain"
+    pub voting_power: u64,
+}
+
+// Reward models
+#[derive(Debug, Serialize, Deserialize)]
+pub struct RewardDistribution {
+    pub recipient: String,
+    pub amount: u64,
+    pub reward_type: String,
+    pub timestamp: i64,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ClaimRewardRequest {
+    pub reward_type: String,
+    pub amount: u64,
+}

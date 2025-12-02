@@ -56,6 +56,16 @@ export default function Home() {
               节点管理
             </button>
           </Link>
+          <Link href="/governance">
+            <button className="bg-white text-primary-600 border-2 border-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary-50 transition">
+              模型治理
+            </button>
+          </Link>
+          <Link href="/rewards">
+            <button className="bg-white text-primary-600 border-2 border-primary-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary-50 transition">
+              奖励系统
+            </button>
+          </Link>
         </div>
 
         {connected && (

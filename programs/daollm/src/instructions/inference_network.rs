@@ -110,13 +110,21 @@ pub struct AggregateResults<'info> {
 
 pub fn aggregate_results(
     ctx: Context<AggregateResults>,
-    _proposal_id: String,
+    proposal_id: String,
 ) -> Result<()> {
-    // 这里应该查询所有相关的推理结果并聚合
-    // 简化版本：直接标记为完成
+    // 检查提案状态
+    require!(
+        ctx.accounts.proposal.status == ProposalStatus::Analyzing,
+        ErrorCode::ProposalNotAnalyzing
+    );
+    
+    // 注意：在Solana中，我们无法在链上直接查询所有推理结果
+    // 聚合逻辑应该由后端服务完成，这里只更新状态
+    // 后端会查询所有InferenceResult账户，进行聚合，然后调用此函数更新状态
+    
     ctx.accounts.proposal.status = ProposalStatus::Completed;
     
-    msg!("Results aggregated for proposal");
+    msg!("Results aggregated for proposal: {}", proposal_id);
     Ok(())
 }
 
@@ -156,4 +164,6 @@ pub enum ErrorCode {
     NodeInactive,
     #[msg("Invalid score, must be between 0 and 100")]
     InvalidScore,
+    #[msg("Proposal is not in analyzing status")]
+    ProposalNotAnalyzing,
 }

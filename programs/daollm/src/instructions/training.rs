@@ -75,7 +75,7 @@ pub fn submit_gradient(
     let gradient = &mut ctx.accounts.gradient;
     let clock = Clock::get()?;
     
-    require!(task.status == TrainingStatus::Training, ErrorCode::TaskNotInTraining);
+    require!(task.status == TrainingStatus::Training, TrainingError::TaskNotInTraining);
     
     gradient.task_id = task_id;
     gradient.node = ctx.accounts.node.key();

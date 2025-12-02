@@ -34,7 +34,7 @@ pub struct GovernanceProposal {
     pub votes_for: u64,                  // 支持票数
     pub votes_against: u64,              // 反对票数
     pub total_votes: u64,                // 总票数
-    pub status: ProposalStatus,         // 提案状态
+    pub status: GovernanceProposalStatus,         // 提案状态
     pub created_at: i64,                 // 创建时间
     pub voting_ends_at: i64,             // 投票结束时间
     pub executed_at: Option<i64>,        // 执行时间
@@ -56,7 +56,7 @@ impl GovernanceProposal {
         1 + 8;                           // executed_at (Option<i64>)
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Debug)]
 pub enum ProposalType {
     UpdateModelConfig,   // 更新模型配置
     UpdateRewardRate,    // 更新奖励率
@@ -92,7 +92,7 @@ impl Vote {
         8;                               // timestamp
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Debug)]
 pub enum VoteType {
     For,                 // 支持
     Against,             // 反对

@@ -4,13 +4,11 @@ pub mod instructions;
 pub mod state;
 
 use instructions::{
-    data_contribution::SubmitProposal,
-    inference_network::{
-        RegisterNode, SubmitInference, AggregateResults, RateNode
-    },
-    governance::{
-        CreateGovernanceProposal, VoteOnProposal, ExecuteProposal
-    },
+    SubmitProposal,
+    RegisterNode, SubmitInference, AggregateResults, RateNode,
+    CreateGovernanceProposal, VoteOnProposal, ExecuteProposal,
+    DistributeRewards, DistributeInferenceReward, ClaimReward,
+    CreateTrainingTask, SubmitGradient,
 };
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
@@ -92,17 +90,17 @@ pub mod daollm {
 
     // Reward Distribution Instructions
     pub fn distribute_data_contribution_reward(
-        ctx: Context<instructions::rewards::DistributeRewards>,
+        ctx: Context<DistributeRewards>,
         amount: u64,
     ) -> Result<()> {
         instructions::rewards::distribute_data_contribution_reward(ctx, amount)
     }
 
     pub fn distribute_inference_reward(
-        ctx: Context<instructions::rewards::DistributeRewards>,
+        ctx: Context<DistributeInferenceReward>,
         amount: u64,
     ) -> Result<()> {
-        instructions::rewards::distribute_data_contribution_reward(ctx, amount)
+        instructions::rewards::distribute_inference_reward(ctx, amount)
     }
 
     pub fn claim_reward(
@@ -115,7 +113,7 @@ pub mod daollm {
 
     // Training Instructions
     pub fn create_training_task(
-        ctx: Context<instructions::training::CreateTrainingTask>,
+        ctx: Context<CreateTrainingTask>,
         task_id: u64,
         model_config_hash: String,
         total_nodes: u32,
@@ -124,7 +122,7 @@ pub mod daollm {
     }
 
     pub fn submit_gradient(
-        ctx: Context<instructions::training::SubmitGradient>,
+        ctx: Context<SubmitGradient>,
         task_id: u64,
         gradient_hash: String,
     ) -> Result<()> {

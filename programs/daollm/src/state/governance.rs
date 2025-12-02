@@ -28,7 +28,7 @@ impl ModelConfig {
 pub struct GovernanceProposal {
     pub proposal_id: u64,                // 提案ID
     pub proposer: Pubkey,                // 提案者
-    pub proposal_type: ProposalType,     // 提案类型
+    pub proposal_type: GovernanceProposalType,     // 提案类型
     pub target_config: Option<ModelConfig>, // 目标配置（如果修改配置）
     pub description: String,             // 提案描述
     pub votes_for: u64,                  // 支持票数
@@ -57,7 +57,7 @@ impl GovernanceProposal {
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Debug)]
-pub enum ProposalType {
+pub enum GovernanceProposalType {
     UpdateModelConfig,   // 更新模型配置
     UpdateRewardRate,    // 更新奖励率
     UpdateNodeStake,     // 更新节点质押要求
@@ -65,8 +65,8 @@ pub enum ProposalType {
     UpgradeProgram,      // 升级程序
 }
 
-#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq)]
-pub enum ProposalStatus {
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Debug)]
+pub enum GovernanceProposalStatus {
     Active,              // 投票中
     Passed,              // 已通过
     Rejected,            // 已拒绝
@@ -78,7 +78,7 @@ pub enum ProposalStatus {
 pub struct Vote {
     pub voter: Pubkey,                   // 投票者
     pub proposal_id: u64,                // 提案ID
-    pub vote_type: VoteType,             // 投票类型
+    pub vote_type: GovernanceVoteType,             // 投票类型
     pub voting_power: u64,               // 投票权重（基于代币数量）
     pub timestamp: i64,                  // 投票时间
 }
@@ -93,7 +93,7 @@ impl Vote {
 }
 
 #[derive(AnchorSerialize, AnchorDeserialize, Clone, PartialEq, Debug)]
-pub enum VoteType {
+pub enum GovernanceVoteType {
     For,                 // 支持
     Against,             // 反对
     Abstain,             // 弃权

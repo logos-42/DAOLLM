@@ -1,5 +1,12 @@
 use anchor_lang::prelude::*;
-use crate::state::governance::*;
+use crate::state::governance::{
+    GovernanceProposal,
+    GovernanceProposalStatus,
+    GovernanceProposalType,
+    GovernanceVoteType,
+    ModelConfig,
+    Vote,
+};
 
 #[derive(Accounts)]
 pub struct CreateGovernanceProposal<'info> {
@@ -68,9 +75,9 @@ pub struct ExecuteProposal<'info> {
 pub fn create_governance_proposal(
     ctx: Context<CreateGovernanceProposal>,
     proposal_id: u64,
-    proposal_type: crate::state::governance::ProposalType,
+    proposal_type: GovernanceProposalType,
     description: String,
-    target_config: Option<crate::state::ModelConfig>,
+    target_config: Option<ModelConfig>,
     voting_duration: i64,
 ) -> Result<()> {
     let proposal = &mut ctx.accounts.proposal;
@@ -96,7 +103,7 @@ pub fn create_governance_proposal(
 pub fn vote_on_proposal(
     ctx: Context<VoteOnProposal>,
     proposal_id: u64,
-    vote_type: crate::state::governance::VoteType,
+    vote_type: GovernanceVoteType,
     voting_power: u64,
 ) -> Result<()> {
     let proposal = &mut ctx.accounts.proposal;
@@ -114,9 +121,13 @@ pub fn vote_on_proposal(
     
     // 更新提案投票统计
     match vote_type {
-        VoteType::For => proposal.votes_for = proposal.votes_for.checked_add(voting_power).unwrap(),
-        VoteType::Against => proposal.votes_against = proposal.votes_against.checked_add(voting_power).unwrap(),
-        VoteType::Abstain => {}, // 弃权不计入
+        GovernanceVoteType::For => {
+            proposal.votes_for = proposal.votes_for.checked_add(voting_power).unwrap()
+        }
+        GovernanceVoteType::Against => {
+            proposal.votes_against = proposal.votes_against.checked_add(voting_power).unwrap()
+        }
+        GovernanceVoteType::Abstain => {}, // 弃权不计入
     }
     proposal.total_votes = proposal.total_votes.checked_add(voting_power).unwrap();
     
@@ -139,7 +150,7 @@ pub fn execute_proposal(
     
     // 根据提案类型执行操作
     match proposal.proposal_type {
-        ProposalType::UpdateModelConfig => {
+        GovernanceProposalType::UpdateModelConfig => {
             if let Some(ref new_config) = proposal.target_config {
                 // 检查模型配置账户是否存在
                 if model_config.data_is_empty() {
@@ -166,22 +177,22 @@ pub fn execute_proposal(
                 }
             }
         },
-        crate::state::governance::ProposalType::UpdateRewardRate => {
+        GovernanceProposalType::UpdateRewardRate => {
             // 奖励率更新需要单独的配置账户
             // 这里记录到提案描述中，实际更新由后端处理
             msg!("Reward rate update proposal executed: {}", proposal.description);
         },
-        crate::state::governance::ProposalType::UpdateNodeStake => {
+        GovernanceProposalType::UpdateNodeStake => {
             // 节点质押要求更新需要单独的配置账户
             // 这里记录到提案描述中，实际更新由后端处理
             msg!("Node stake requirement update proposal executed: {}", proposal.description);
         },
-        crate::state::governance::ProposalType::EmergencyPause => {
+        GovernanceProposalType::EmergencyPause => {
             // 紧急暂停：设置全局暂停标志
             // 需要创建全局状态账户来存储暂停状态
             msg!("Emergency pause proposal executed");
         },
-        crate::state::governance::ProposalType::UpgradeProgram => {
+        GovernanceProposalType::UpgradeProgram => {
             // 程序升级：记录升级信息
             // 实际升级需要BPF升级流程
             msg!("Program upgrade proposal executed: {}", proposal.description);

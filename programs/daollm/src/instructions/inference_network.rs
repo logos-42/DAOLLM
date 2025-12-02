@@ -37,6 +37,8 @@ pub fn register_node(
 #[derive(Accounts)]
 #[instruction(proposal_id: String)]
 pub struct SubmitInference<'info> {
+    // 作为 payer 的账户必须是可变的
+    #[account(mut)]
     pub node: Signer<'info>,
     
     #[account(

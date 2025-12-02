@@ -7,9 +7,11 @@ use instructions::{
     SubmitProposal,
     RegisterNode, SubmitInference, AggregateResults, RateNode,
     CreateGovernanceProposal, VoteOnProposal, ExecuteProposal,
-    DistributeRewards, DistributeInferenceReward, ClaimReward,
+    DistributeRewards, DistributeInferenceReward, ClaimReward, RewardType,
     CreateTrainingTask, SubmitGradient,
 };
+
+use state::governance::{GovernanceProposalType, GovernanceVoteType, ModelConfig};
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
@@ -62,9 +64,9 @@ pub mod daollm {
     pub fn create_governance_proposal(
         ctx: Context<CreateGovernanceProposal>,
         proposal_id: u64,
-        proposal_type: instructions::governance::ProposalType,
+        proposal_type: GovernanceProposalType,
         description: String,
-        target_config: Option<state::ModelConfig>,
+        target_config: Option<ModelConfig>,
         voting_duration: i64,
     ) -> Result<()> {
         instructions::governance::create_governance_proposal(
@@ -75,7 +77,7 @@ pub mod daollm {
     pub fn vote_on_proposal(
         ctx: Context<VoteOnProposal>,
         proposal_id: u64,
-        vote_type: instructions::governance::VoteType,
+        vote_type: GovernanceVoteType,
         voting_power: u64,
     ) -> Result<()> {
         instructions::governance::vote_on_proposal(ctx, proposal_id, vote_type, voting_power)
@@ -104,8 +106,8 @@ pub mod daollm {
     }
 
     pub fn claim_reward(
-        ctx: Context<instructions::rewards::ClaimReward>,
-        reward_type: instructions::rewards::RewardType,
+        ctx: Context<ClaimReward>,
+        reward_type: RewardType,
         amount: u64,
     ) -> Result<()> {
         instructions::rewards::claim_reward(ctx, reward_type, amount)

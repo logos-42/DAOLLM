@@ -22,6 +22,8 @@ pub struct CreateTrainingTask<'info> {
 #[derive(Accounts)]
 #[instruction(task_id: u64)]
 pub struct SubmitGradient<'info> {
+    // 作为 payer 的账户必须是可变的
+    #[account(mut)]
     pub node: Signer<'info>,
     
     #[account(

@@ -13,7 +13,7 @@ use instructions::{
 
 use state::governance::{GovernanceProposalType, GovernanceVoteType, ModelConfig};
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("GhqfJkCcxJSqz58yWGGxJLis6MB3987SFkz4V1fdQSX2");
 
 #[program]
 pub mod daollm {

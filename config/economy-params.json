@@ -1,0 +1,180 @@
+{
+  "$schema": "./economy-params.schema.json",
+  "version": "1.0.0",
+  "description": "TRO Economy Model Parameters",
+  "lastUpdated": "2024-12-03",
+  
+  "staking": {
+    "description": "Staking requirements by model capability",
+    "tiers": {
+      "Local7B": {
+        "minStakeLamports": 10000000000,
+        "minStakeSOL": 10,
+        "description": "7B parameter local models"
+      },
+      "Local13B": {
+        "minStakeLamports": 20000000000,
+        "minStakeSOL": 20,
+        "description": "13B parameter local models"
+      },
+      "Local70B": {
+        "minStakeLamports": 35000000000,
+        "minStakeSOL": 35,
+        "description": "70B parameter local models"
+      },
+      "CloudAPI": {
+        "minStakeLamports": 50000000000,
+        "minStakeSOL": 50,
+        "description": "Cloud API providers"
+      }
+    },
+    "dynamicAdjustment": {
+      "enabled": true,
+      "description": "Reputation-based stake requirements",
+      "reputationThresholds": [
+        {"minReputation": 9500, "stakeMultiplier": 0.7, "label": "Excellent"},
+        {"minReputation": 9000, "stakeMultiplier": 0.8, "label": "Good"},
+        {"minReputation": 8000, "stakeMultiplier": 0.9, "label": "Average"},
+        {"minReputation": 0, "stakeMultiplier": 1.0, "label": "New"}
+      ]
+    }
+  },
+  
+  "rewards": {
+    "description": "Reward distribution parameters",
+    "baseRewardPerTask": {
+      "SimpleQA": 100000,
+      "ComplexReasoning": 500000,
+      "MultiStep": 800000,
+      "DataAnalysis": 1000000
+    },
+    "reputationWeighting": {
+      "enabled": true,
+      "formula": "baseReward * (1 + (reputation - 5000) / 10000)",
+      "minMultiplier": 0.5,
+      "maxMultiplier": 2.0
+    },
+    "cacheHitBonus": {
+      "enabled": true,
+      "bonusPercentage": 10,
+      "description": "Extra reward for cache hit contributions"
+    },
+    "batchSettlement": {
+      "enabled": true,
+      "minBatchSize": 10,
+      "maxBatchSize": 100,
+      "settlementIntervalSeconds": 3600
+    }
+  },
+  
+  "slashing": {
+    "description": "Penalty parameters for misbehavior",
+    "wrongResultPenalty": {
+      "percentageOfStake": 5,
+      "minPenaltyLamports": 100000000
+    },
+    "maliciousBehaviorPenalty": {
+      "percentageOfStake": 50,
+      "description": "Proven malicious intent"
+    },
+    "offlinePenalty": {
+      "gracePeriodseconds": 3600,
+      "hourlyPenaltyPercentage": 0.1
+    },
+    "challengeStake": {
+      "percentageOfTaskReward": 20,
+      "minStakeLamports": 100000000
+    }
+  },
+  
+  "taskPricing": {
+    "description": "Task cost calculation",
+    "baseCostLamports": 100000,
+    "complexityMultiplier": {
+      "perPoint": 1000,
+      "description": "Additional cost per complexity point"
+    },
+    "criticalityMultiplier": {
+      "Low": 1.0,
+      "Standard": 1.5,
+      "High": 2.5,
+      "MissionCritical": 5.0
+    },
+    "zkProofSurcharge": {
+      "enabled": true,
+      "fixedCostLamports": 500000,
+      "description": "Additional cost for ZK proof generation"
+    }
+  },
+  
+  "challengePeriod": {
+    "description": "Dispute resolution timing",
+    "defaultWindowSeconds": 172800,
+    "defaultWindowHours": 48,
+    "minWindowSeconds": 1800,
+    "maxWindowSeconds": 604800,
+    "votingDurationSeconds": 86400,
+    "votingDurationHours": 24
+  },
+  
+  "performanceConsensus": {
+    "description": "Benchmark test parameters",
+    "enabled": true,
+    "intervalSeconds": 86400,
+    "standardQuestionSetSize": 50,
+    "passingScorePercentage": 70,
+    "categories": [
+      "factual_qa",
+      "reasoning",
+      "math",
+      "code",
+      "summarization"
+    ]
+  },
+  
+  "workflowRouting": {
+    "description": "Model scheduling strategy matrix",
+    "workflows": {
+      "FastRealtime": {
+        "maxComplexity": 200,
+        "preferredModel": "Local7B",
+        "maxLatencyMs": 500,
+        "cacheFirst": true,
+        "zkRequired": false
+      },
+      "Balanced": {
+        "maxComplexity": 600,
+        "preferredModel": "Local13B",
+        "maxLatencyMs": 2000,
+        "cacheFirst": true,
+        "zkRequired": false
+      },
+      "DeepReasoning": {
+        "maxComplexity": 900,
+        "preferredModel": "Local70B",
+        "fallbackModel": "CloudAPI",
+        "maxLatencyMs": 10000,
+        "cacheFirst": false,
+        "zkRequired": true
+      },
+      "ConsensusGuarded": {
+        "maxComplexity": 1000,
+        "preferredModel": "CloudAPI",
+        "minNodes": 3,
+        "maxLatencyMs": 30000,
+        "cacheFirst": false,
+        "zkRequired": true,
+        "multiSigRequired": true
+      }
+    }
+  },
+  
+  "networkParameters": {
+    "minActiveNodes": 3,
+    "maxTasksPerNode": 100,
+    "taskTimeoutSeconds": 300,
+    "resultAggregationMethod": "weighted_majority",
+    "consensusThresholdPercentage": 67
+  }
+}
+

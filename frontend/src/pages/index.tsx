@@ -40,7 +40,40 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex gap-4 justify-center mb-12">
+        {/* TRO Features */}
+        <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-6 mb-8 border border-purple-500/30">
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">🚀 TRO 可信推理中控层</h3>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Link href="/tro-tasks">
+              <div className="bg-white/80 rounded-xl p-4 hover:shadow-lg transition cursor-pointer">
+                <div className="text-2xl mb-2">🧠</div>
+                <div className="font-semibold text-gray-800">TRO任务</div>
+                <div className="text-sm text-gray-600">提交和监控推理任务</div>
+              </div>
+            </Link>
+            <Link href="/node-register">
+              <div className="bg-white/80 rounded-xl p-4 hover:shadow-lg transition cursor-pointer">
+                <div className="text-2xl mb-2">🖥️</div>
+                <div className="font-semibold text-gray-800">推理节点</div>
+                <div className="text-sm text-gray-600">注册和管理算力节点</div>
+              </div>
+            </Link>
+            <Link href="/challenge">
+              <div className="bg-white/80 rounded-xl p-4 hover:shadow-lg transition cursor-pointer">
+                <div className="text-2xl mb-2">⚖️</div>
+                <div className="font-semibold text-gray-800">争议解决</div>
+                <div className="text-sm text-gray-600">发起和参与DAO仲裁</div>
+              </div>
+            </Link>
+            <div className="bg-white/80 rounded-xl p-4">
+              <div className="text-2xl mb-2">🔐</div>
+              <div className="font-semibold text-gray-800">ZK证明</div>
+              <div className="text-sm text-gray-600">高价值任务强制验证</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-4 justify-center mb-12 flex-wrap">
           <Link href="/submit">
             <button className="bg-primary-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-primary-700 transition">
               创建提案

@@ -161,6 +161,3 @@ pub fn rate_node(
     Ok(())
 }
 
-#[error_code]
-}
-

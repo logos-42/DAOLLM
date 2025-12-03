@@ -24,8 +24,8 @@ solana-sdk = "2.0"
 anchor-client = "0.32"
 
 # IPFS
-ipfs-api = "0.3"
-reqwest = { version = "0.11", features = ["json"] }
+ipfs-api = "0.17"
+reqwest = { version = "0.11", features = ["json", "stream"] }
 
 # Database (optional for MVP)
 sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres"] }
@@ -43,4 +43,33 @@ uuid = { version = "1.6", features = ["v4", "serde", "fast-rng"] }
 
 # Time
 chrono = { version = "0.4", features = ["serde"] }
+
+# TRO Reasoning Layer
+async-trait = "0.1"
+futures = "0.3"
+tokio-stream = "0.1"
+
+# Redis for semantic cache
+redis = { version = "0.24", features = ["tokio-comp", "connection-manager"] }
+
+# Compression for IPFS storage
+flate2 = "1.0"
+brotli = "3.4"
+
+# Cryptographic hashing
+sha2 = "0.10"
+base64 = "0.21"
+
+# Async channels
+async-channel = "2.1"
+
+# Retry logic
+tokio-retry = "0.3"
+
+# Metrics
+metrics = "0.21"
+metrics-exporter-prometheus = "0.12"
+
+# Random number generation for tests
+rand = "0.8"
 

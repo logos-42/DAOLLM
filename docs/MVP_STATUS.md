@@ -196,7 +196,7 @@ daollm/
 ## 📚 文档
 
 - [架构设计](DAO_PROPOSAL_SYSTEM_DECENTRALIZED_AI.md)
-- [实施计划](IMPLEMENTATION_PLAN.md)
+- [实施计划](docs/IMPLEMENTATION_PLAN.md)
 - [用户指南](USER_GUIDE.md)
 - [README](README.md)
 

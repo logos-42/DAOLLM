@@ -1,4 +1,5 @@
-use anchor_lang::prelude::*;
+﻿use anchor_lang::prelude::*;
+use crate::ErrorCode;
 use crate::state::{InferenceNode, InferenceResult, Proposal, ProposalStatus};
 
 #[derive(Accounts)]
@@ -161,11 +162,5 @@ pub fn rate_node(
 }
 
 #[error_code]
-pub enum ErrorCode {
-    #[msg("Node is not active")]
-    NodeInactive,
-    #[msg("Invalid score, must be between 0 and 100")]
-    InvalidScore,
-    #[msg("Proposal is not in analyzing status")]
-    ProposalNotAnalyzing,
 }
+

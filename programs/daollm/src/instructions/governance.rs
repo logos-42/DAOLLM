@@ -1,4 +1,5 @@
-use anchor_lang::prelude::*;
+﻿use anchor_lang::prelude::*;
+use crate::ErrorCode;
 use crate::state::governance::{
     GovernanceProposal,
     GovernanceProposalStatus,
@@ -207,16 +208,5 @@ pub fn execute_proposal(
 }
 
 #[error_code]
-pub enum ErrorCode {
-    #[msg("Proposal is not active")]
-    ProposalNotActive,
-    #[msg("Voting has ended")]
-    VotingEnded,
-    #[msg("Proposal has not passed")]
-    ProposalNotPassed,
-    #[msg("Voting is still active")]
-    VotingStillActive,
-    #[msg("No votes cast")]
-    NoVotes,
-}
+
 

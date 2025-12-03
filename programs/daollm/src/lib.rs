@@ -1,4 +1,4 @@
-use anchor_lang::prelude::*;
+﻿use anchor_lang::prelude::*;
 
 pub mod instructions;
 pub mod state;
@@ -132,3 +132,24 @@ pub mod daollm {
     }
 }
 
+
+
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Node is not active")]
+    NodeInactive,
+    #[msg("Invalid score, must be between 0 and 100")]
+    InvalidScore,
+    #[msg("Proposal is not in analyzing status")]
+    ProposalNotAnalyzing,
+    #[msg("Proposal is not active")]
+    ProposalNotActive,
+    #[msg("Voting has ended")]
+    VotingEnded,
+    #[msg("Proposal has not passed")]
+    ProposalNotPassed,
+    #[msg("Voting is still active")]
+    VotingStillActive,
+    #[msg("No votes cast")]
+    NoVotes,
+}

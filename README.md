@@ -150,10 +150,10 @@ API_PORT=8000
 
 ## 文档
 
-- [架构设计](DAO_PROPOSAL_SYSTEM_DECENTRALIZED_AI.md)
-- [实施计划](IMPLEMENTATION_PLAN.md)
-- [用户指南](USER_GUIDE.md)
-- [MVP状态](MVP_STATUS.md)
+- [架构设计](docs/DAO_PROPOSAL_SYSTEM_DECENTRALIZED_AI.md)
+- [实施计划](docs/IMPLEMENTATION_PLAN.md)
+- [用户指南](docs/USER_GUIDE.md)
+- [MVP状态](docs/MVP_STATUS.md)
 
 ## 开发指南
 
